@@ -8,7 +8,9 @@
 
       <div class="form-control">
         <label for="password">password</label>
-        <input id="message" v-model="password" />
+        <input :type="passwordType" id="message" v-model="password" />
+        <input type="checkbox" id="showPassword" :onclick="showPassword">
+        <label for="showPassword">show password</label>
       </div>
 
       <div class="form-control">
@@ -30,7 +32,7 @@
         please enter a valid email and passsword
       </p>
       <div class="actions">
-        <base-button>Login</base-button>
+        <base-button @submit.prevent="submitForm">Login</base-button>
         <br />
         <p>
           if you don't have a sccount please
@@ -49,9 +51,17 @@ export default {
       password: "",
       email: "",
       type: null,
+      passwordType:'password'
     };
   },
   methods: {
+      showPassword(){
+          if(this.passwordType==='password'){
+              this.passwordType='text'
+          }else{
+              this.passwordType="password"
+          }
+      },
     submitForm() {
       this.isValid = true;
       if (
@@ -122,12 +132,14 @@ textarea:focus {
   outline: none;
 }
 
-input[type='radio'] + label {
-  font-weight: normal;
+input[type='radio'] + label ,
+input[type='checkbox'] + label {
+  font-weight: bold;
   display: inline;
   margin: 0 0 0 0.7rem;
 }
-input[type='radio'] {
+input[type='radio'],
+input[type='checkbox'] {
   display: inline;
   width: auto;
   border: none;
