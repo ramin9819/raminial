@@ -137,10 +137,12 @@ export default {
         email: this.email.value,
         likedCategory: this.categories,
       };
+
       console.log(formData);
       try{
-      await this.$store.dispatch('userSignup',formData)
+      await this.$store.dispatch('auth/userSignup',formData)
       console.log('done')
+      this.$router.replace('login')
       }catch(error){
           console.log(error)
       }

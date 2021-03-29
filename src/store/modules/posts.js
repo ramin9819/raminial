@@ -10,6 +10,8 @@ export default {
   },
   getters: {
     getPosts(state) {
+      // const str = JSON.stringify(state.allPosts)
+      // return  JSON.parse(str)
       return state.posts;
     },
     getPost(state) {
@@ -24,7 +26,13 @@ export default {
   },
   mutations: {
     setPosts(state, payload) {
-      state.posts = payload;
+      state.posts=payload
+      // console.log(payload)
+      // console.log(state.allPosts)
+      // for(let post in payload){
+      //   console.log(payload[post], 'post')
+      //   state.allPosts.push(payload[post]);
+      // }
     },
     setSinglePost(state, payload) {
       // console.log(payload.post, 'setpost')
@@ -42,7 +50,8 @@ export default {
       if (!response.ok) {
         //error handling
       }
-      console.log(responseData.message);
+      console.log(responseData.posts);
+      // context.posts=responseData.posts
       context.commit("setPosts", responseData.posts);
     },
     async setSinglePost(context, payload) {

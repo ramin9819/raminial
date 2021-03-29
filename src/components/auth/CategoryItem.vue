@@ -21,7 +21,15 @@ export default {
   },
   methods: {
     addCategory(value) {
-      this.cate.push(value);
+      if(this.cate.includes(value)){
+        this.cate=this.cate.filter(a => { 
+          console.log(a,value)
+          return a !== value
+           })
+      }else{
+        this.cate.push(value);
+      }
+      console.log(this.cate)
       this.$emit("add-category", this.cate);
     },
   },

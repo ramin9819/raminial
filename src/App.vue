@@ -6,7 +6,10 @@
 <script>
 import TheHeader from "./components/layout/TheHeader";
 export default {
-  components: { TheHeader },
+  components: { TheHeader }, 
+  created(){
+    this.$store.dispatch('auth/setUser')
+  }
 };
 </script>
 <style>
@@ -20,6 +23,7 @@ html {
 
 body {
   margin: 0;
+  
 }
 .route-enter-from {
   opacity: 0;

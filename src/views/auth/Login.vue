@@ -9,11 +9,11 @@
       <div class="form-control">
         <label for="password">password</label>
         <input :type="passwordType" id="message" v-model="password" />
-        <input type="checkbox" id="showPassword" :onclick="showPassword">
+        <input type="checkbox" id="showPassword" :onclick="showPassword" />
         <label for="showPassword">show password</label>
       </div>
 
-      <div class="form-control">
+      <!-- <div class="form-control">
         <h3>login as:</h3>
         <div>
           <input type="radio" id="user" value="user" v-model="type" />
@@ -27,10 +27,11 @@
           <input type="radio" id="admin" value="admin" v-model="type" />
           <label for="admin">admin</label>
         </div>
-      </div>
-      <p class="errors" v-if="!isValid">
+      </div> -->
+      <p  v-if="!isValid" class="errors">
         please enter a valid email and passsword
       </p>
+      <p v-if="error" class="errors" > {{error}}</p>
       <div class="actions">
         <base-button @submit.prevent="submitForm">Login</base-button>
         <br />
@@ -50,48 +51,47 @@ export default {
       isValid: true,
       password: "",
       email: "",
-      type: null,
-      passwordType:'password'
+      // type: null,
+      error:'',
+      passwordType: "password",
     };
   },
+  // created(){
+  //   this.email=this.$store.getters['auth/getEmail']
+  //   console.log(this.$store.getters['auth/getEmail'])
+  // },
   methods: {
-      showPassword(){
-          if(this.passwordType==='password'){
-              this.passwordType='text'
-          }else{
-              this.passwordType="password"
-          }
-      },
-    submitForm() {
+    showPassword() {
+      if (this.passwordType === "password") {
+        this.passwordType = "text";
+      } else {
+        this.passwordType = "password";
+      }
+    },
+    async submitForm() {
       this.isValid = true;
       if (
         this.password.length < 3 ||
         this.email === "" ||
-        !this.email.includes("@")||
-        this.type===null
+        !this.email.includes("@")
+        // this.type===null
       ) {
         this.isValid = false;
         return;
       }
-      console.log(this.email, this.password, this.type);
+      this.error=''
+      console.log(this.email, this.password);
       //   this.isLoading = true;
-      //   try {
-      //     if (this.mode === "login") {
-      //       await this.$store.dispatch("login", {
-      //         email: this.email,
-      //         password: this.password,
-      //       });
-      //     } else {
-      //       await this.$store.dispatch("signupUser", {
-      //         email: this.email,
-      //         password: this.password,
-      //       });
-      //     }
-      //     const url = this.$route.query.url || "coaches";
-      //     this.$router.replace(url);
-      //   } catch (error) {
-      //     this.error = error.message || "failed";
-      //   }
+      try {
+        await this.$store.dispatch("auth/login", {
+          email: this.email,
+          password: this.password,
+        });
+        this.$router.replace("/");
+      } catch (error) {
+        this.error = error.message || "failed";
+        console.log(this.error)
+      }
       //   this.isLoading = false;
     },
   },
@@ -99,7 +99,6 @@ export default {
 </script>
 
 <style scoped>
-
 form {
   width: 30%;
   margin: 1rem;
@@ -132,27 +131,27 @@ textarea:focus {
   outline: none;
 }
 
-input[type='radio'] + label ,
-input[type='checkbox'] + label {
+input[type="radio"] + label,
+input[type="checkbox"] + label {
   font-weight: bold;
   display: inline;
   margin: 0 0 0 0.7rem;
 }
-input[type='radio'],
-input[type='checkbox'] {
+input[type="radio"],
+input[type="checkbox"] {
   display: inline;
   width: auto;
   border: none;
 }
 
-input[type='radio']:focus {
+input[type="radio"]:focus {
   outline: #3d008d solid 1px;
 }
 .errors {
   font-weight: bold;
   color: red;
 }
-h3{
-    margin: 1rem 0 0.5rem 0 ;
+h3 {
+  margin: 1rem 0 0.5rem 0;
 }
 </style>

@@ -2,12 +2,14 @@ import { createStore } from 'vuex'
 
 import postModules from './modules/posts'
 import authModules from './modules/auth'
+import userModules from './modules/user'
 
 export default createStore({
   
   modules: {
     posts:postModules,
-    auth:authModules
+    auth:authModules,
+    user:userModules
   },
   state(){
     return {

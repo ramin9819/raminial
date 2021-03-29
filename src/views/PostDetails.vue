@@ -4,7 +4,9 @@
     <div>
       <header class="header">
         <h3>{{ title }}</h3>
-        <router-link :to="categoryLink">{{ category }}</router-link>
+        <div>
+      <router-link v-for="cat in category" :key="cat" :to='"/category/"+cat' class="category">{{ cat }}</router-link>
+      </div>
       </header>
       <router-link to="sd" class="writer">
         <img src="@/assets/images/avatar.png" alt="Avatar" class="avatar" />
@@ -141,4 +143,13 @@ ul{
     padding: 0;
     margin:1rem;
 } 
+
+.category{
+  padding: 2px;
+  margin: 2px;
+  border: 1px solid;
+  border-radius: 5px;
+  background-color: rgb(172, 188, 238);
+  font-size: 0.75rem;
+}
 </style>

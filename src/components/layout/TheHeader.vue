@@ -1,12 +1,19 @@
 <template>
   <header>
     <nav>
+      <router-link v-if="isAuth" to="/profile" class="writer">
+      <img src="@/assets/images/avatar.png" alt="Avatar" class="avatar" />
+      <h4>{{name}}</h4>
+      </router-link>
       <h2><router-link to="/"> main page</router-link></h2>
 
       <ul>
           <li><router-link to = '/aboutUs'>about us</router-link></li>
-          <li><router-link to = '/login'>login</router-link></li>
-          <li><router-link to = '/signup'>signup</router-link></li>
+          
+          <li v-if="!isAuth"><router-link to = '/login'>login</router-link></li>
+          <li v-if="!isAuth"><router-link to = '/signup'>signup</router-link></li>
+         
+          <li v-if="isAuth" ><base-button @click="logout">logout</base-button></li>
       </ul>
     </nav>
   </header>
@@ -14,7 +21,21 @@
 
 <script>
 
-export default {}
+export default {
+  computed:{
+    isAuth(){
+      return this.$store.getters['auth/isAuth']
+    },
+    name() {
+      return this.$store.getters["auth/getName"];
+    }
+  },
+  methods:{
+    logout(){
+      this.$store.dispatch('auth/logout')
+    }
+  }
+}
 
 </script>
 
@@ -36,10 +57,27 @@ header a {
   border: 1px solid transparent;
 }
 
+.avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.writer {
+  display: flex;
+  padding: 0;
+  margin-bottom: 1rem;
+
+}
+h4 {
+  margin: 1rem 0.5rem;
+}
+
 a:active,
 a:hover,
 a.router-link-active {
-  border: 1px solid #f391e3;
+  /* border: 1px solid #f391e3; */
+  color: blue;
 }
 
 h1 {
